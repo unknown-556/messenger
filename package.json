@@ -1,0 +1,28 @@
+{
+  "name": "messaging",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "a messaging app",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "obasi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.4",
+    "nodemon": "^3.1.4",
+    "socket.io": "^4.7.5",
+    "socketio": "^1.0.0",
+    "zod": "^3.23.8"
+  }
+}
