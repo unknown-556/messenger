@@ -7,5 +7,7 @@ router.post('/:recepientId', protectRoute, sendMessage)
 router.get('/conversations', protectRoute, getConversations)
 router.get('/:conversationId/messages', protectRoute, getMessage);
 
+router.post('/messages/:recipientId', protectRoute, sendMessage);
+
 
 export default router;

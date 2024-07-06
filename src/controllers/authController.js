@@ -29,16 +29,15 @@ export const signUp = async (req, res) => {
                 name,
                 userName,
                 password,
-                confirmPassword,
                 email,
                 phoneNumber,
                 bio,
                 gender
             } = req.body
 
-            if (password !== confirmPassword) {
-                return res.status(403).json({ message: 'Password and confirmPassword do not match' });
-             }   
+            // if (password !== confirmPassword) {
+            //     return res.status(403).json({ message: 'Password and confirmPassword do not match' });
+            //  }   
              const encryption = hashValue(password)
              
             const newUser = new User({

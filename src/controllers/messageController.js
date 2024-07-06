@@ -74,12 +74,21 @@ export const getMessage = async (req, res) => {
     const { conversationId } = req.params;
     const userId = req.user._id;
     try {
+        console.log('Conversation ID:', conversationId);
+        console.log('User ID:', userId);
+
         const messages = await Message.find({ conversationId }).sort({ createdAt: 1 });
 
-        const recipientId = messages.length ? messages[0].conversationId.participants.find(id => id.toString() !== userId.toString()) : null;
+        console.log('Messages:', messages);
 
-        if (recipientId && recipientId.toString() === userId.toString()) {
-            await Message.updateMany({ conversationId, sender: { $ne: userId }, isSeen: false }, { isSeen: true });
+        if (messages.length > 0 && messages[0].conversationId && messages[0].conversationId.participants) {
+            const recipientId = messages[0].conversationId.participants.find(id => id.toString() !== userId.toString());
+
+            console.log('Recipient ID:', recipientId);
+
+            if (recipientId && recipientId.toString() === userId.toString()) {
+                await Message.updateMany({ conversationId, sender: { $ne: userId }, isSeen: false }, { isSeen: true });
+            }
         }
 
         res.status(200).json(messages);
@@ -88,6 +97,7 @@ export const getMessage = async (req, res) => {
         console.log({ error: error.message }, error);
     }
 };
+
 
 export const deleteMessage = () => {}
 export const updateMessage = () => {}
