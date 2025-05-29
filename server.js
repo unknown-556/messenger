@@ -1,33 +1,35 @@
-import express from 'express'
-import cors from 'cors'
-import dotenv from 'dotenv'
-import bodyParser from 'body-parser'
-import connectDB from './src/db/database.js'
-import router from './src/routes/index.js'
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import connectDB from './src/db/database.js';
+import router from './src/routes/index.js';
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
+const app = express();
 
+app.use(cors({ origin: '*' }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({origin:"*"}))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-app.use('/api/messenger', router)
+app.get('/', (req, res) => {
+  res.send('API IS RUNNING');
+});
 
+app.use('/api/messenger', router);
 
-const startServer  = async () => {
-   const PORT  = process.env.PORT || 8895
-   connectDB()
-   try {
-      app.listen(PORT,() => {console.log(`APP IS RUNNING ON PORT: ${PORT}`);})
-   } catch (error) {
-      console.log(error);
-   }
+const startServer = async () => {
+  const PORT = process.env.PORT || 8896;
+
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`APP IS RUNNING ON PORT: ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 };
 
 startServer();
-
-app.get("/", (req,res) => {
-   res.send('API IS RUNNING')
-})

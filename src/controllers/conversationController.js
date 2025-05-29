@@ -1,27 +1,28 @@
-// import Conversation from '../models/conversationModel.js';
+import Conversation from '../models/conversationModel.js';
 
-// export const startConversation = async (req, res) => {
-//     const { recipientId } = req.body;
-//     const senderId = req.user._id;
+export const startConversation = async (req, res) => {
+    const { recipientId } = req.body;
+    const senderId = req.user._id;
 
-//     try {
-//         let conversation = await Conversation.findOne({
-//             participants: { $all: [senderId, recipientId] }
-//         });
+    if (!recipientId || recipientId === senderId.toString()) {
+        return res.status(400).json({ error: 'Invalid recipient ID' });
+    }
 
-//         if (!conversation) {
-//             conversation = new Conversation({
-//                 participants: [senderId, recipientId],
-//                 lastMessage: {
-//                     text: '',
-//                     sender: senderId
-//                 }
-//             });
-//             await conversation.save();
-//         }
+    try {
+        let conversation = await Conversation.findOne({
+            participants: { $all: [senderId, recipientId] }
+        });
 
-//         res.status(200).json(conversation);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
+        if (!conversation) {
+            conversation = new Conversation({
+                participants: [senderId, recipientId]
+            });
+            await conversation.save();
+        }
+
+        res.status(200).json(conversation);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};

@@ -7,6 +7,7 @@ export const getAllUsers = async (req, res) => {
         if (!allUsers) {
         res.status(400).json({message: 'No users found in database'})
     }   else {
+        return res.json({allUsers})
         res.status(200).json({message: 'Users found successfully', allUsers})
     }
     }   catch (error) {
@@ -22,7 +23,11 @@ export const getSingleUser = async (req, res) => {
         if (!singleUser) {
         res.status(400).json({message: `No user with such id:${userId} found`})
     }   else {
+        console.log(singleUser)
+        return res.json({singleUser})
+        
         res.status(200).json({message: 'User found successfully', singleUser})
+
     }
     }   catch (error) {
         console.error('Error while getting single user',error);
