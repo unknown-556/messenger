@@ -1,13 +1,18 @@
+import mongoose from 'mongoose';
 import User from "../models/userModel.js"
 import cryptoHash from 'crypto';
 
 export const getAllUsers = async (req, res) => {
     try {
-        const allUsers = await User.find()
+        const loggedInUserId = new mongoose.Types.ObjectId(req.user._id);
+
+        const allUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password")
         if (!allUsers) {
         res.status(400).json({message: 'No users found in database'})
     }   else {
+        console.log(allUsers)
         return res.json({allUsers})
+        
         res.status(200).json({message: 'Users found successfully', allUsers})
     }
     }   catch (error) {

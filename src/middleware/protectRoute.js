@@ -25,11 +25,11 @@ const protectRoute = async (req, res, next) => {
       throw new Error("JWT_SECRET environment variable is not defined.");
     }
 
-    console.log("Token received:", token);
+    // console.log("Token received:", token);
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    console.log("Decoded token:", decoded);
+    // console.log("Decoded token:", decoded);
 
     const user = await User.findById(decoded.userId).select("-password");
 

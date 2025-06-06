@@ -68,6 +68,7 @@ export const signIn = async (req, res, next) => {
         if (!user) {
             return res.status(400).json({message:'User with email not found'})
         }
+        console.log(user)
         const comparePass = comparePasswords(password,user.password)
         if(!comparePass) {
            return res.status(400).json({message:'Password is incorrect'})
